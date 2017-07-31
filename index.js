@@ -76,7 +76,7 @@ io.on('connection', (socket)=>{
         let rooms = Object.keys(socket.rooms);
         console.log("rooms:",rooms); // [ <socket.id>, 'room 237' ]
         io.sockets.in(roomUid).emit('past messages', )
-        io.sockets.in(roomUid).emit('message', {message:'새로운 손님이 입장했습니다.', userName:''});
+        io.sockets.in(roomUid).emit('message', {message:'새로운 손님이 입장했습니다.', sender:''});
       });
 
       socket.on('message', (data)=>{
@@ -84,7 +84,7 @@ io.on('connection', (socket)=>{
         io.sockets.in(roomUid).emit('message', data);
         messageRef.child(roomUid).push().set({
           message: data.message,
-          sender: users.userId
+          sender: data.sender
         });
       });
       socket.on('disconnect', ()=>{
